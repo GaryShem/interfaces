@@ -8,12 +8,11 @@ namespace InterfacesHW
 {
     interface ISourceData
     {
-        //void Open();
+        void Open();
         void Load();
-        void Save();
-        void AddStudent(Student student);
-        void AddGroup(Group group);
-        //void Close();
-        Tuple<Student, Group> GetData(int studId);
+       // void Save();
+        void Close();
+        void Parse();
+        void GetData();
     }
 }

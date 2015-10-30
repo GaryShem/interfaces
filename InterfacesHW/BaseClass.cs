@@ -4,15 +4,10 @@ using System.Text;
 
 namespace InterfacesHW
 {
-    abstract class BaseClass : ISourceData
+    abstract class BaseClass
     {
         public db _database = new db();
-        protected string filename;
         
-        //public abstract void Open(); //свой для каждого источника //но не понимаю, зачем нужен
-        //public abstract void Close(); //везде свой //такая же проблема
-        public abstract void Load();
-        public abstract void Save();
         public void AddStudent(Student student)
         {
             _database.Students.Add(student);
@@ -23,12 +18,17 @@ namespace InterfacesHW
             _database.Groups.Add(group);
         }
 
-        private Group FindGroup(int groupId)
+        protected Group FindGroup(int groupId)
         {
-            return _database.Groups.FirstOrDefault(@group => @group.Id == groupId);
+            foreach (var group in _database.Groups)
+            {
+                if (group.Id == groupId)
+                    return group;
+            }
+            return null;
         }
 
-        private Student FindStudent(int studId)
+        protected Student FindStudent(int studId)
         {
             foreach (Student student in _database.Students)
             {
@@ -36,14 +36,6 @@ namespace InterfacesHW
                     return student;
             }
             return null;
-        }
-
-        public Tuple<Student, Group> GetData(int studId)
-        {
-            Student student = FindStudent(studId);
-            if (student == null)
-                return null;
-            return new Tuple<Student, Group>(student, FindGroup(student.GroupId));
         }
 
         public override string ToString()

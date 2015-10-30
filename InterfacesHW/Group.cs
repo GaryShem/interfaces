@@ -22,5 +22,10 @@ namespace InterfacesHW
             get { return _description; }
             set { _description = value; }
         }
+
+        public override string ToString()
+        {
+            return String.Format("groupid: {0}; description: {1}", Id, Description);
+        }
     }
 }

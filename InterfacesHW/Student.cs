@@ -37,5 +37,10 @@ namespace InterfacesHW
             get { return _groupId; }
             set { _groupId = value; }
         }
+
+        public override string ToString()
+        {
+            return String.Format("id: {0}; name: {1}; enroll: {2}; groupID: {3}", Id, Name, EnrollYear, GroupId);
+        }
     }
 }
