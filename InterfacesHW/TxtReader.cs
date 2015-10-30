@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace InterfacesHW
 {
-    class TxtReader : BaseClass, ISourceData
+    class TxtReader : ISourceData
     {
         private string filename;
+        public db _database = new db();
         private TextReader _tempTextReader = null;
         private string _tempString = null;
         public TxtReader()

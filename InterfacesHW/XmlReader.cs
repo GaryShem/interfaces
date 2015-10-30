@@ -5,14 +5,15 @@ using System.Xml.Serialization;
 
 namespace InterfacesHW
 {
-    class XmlReader : BaseClass, ISourceData
+    class XmlReader : ISourceData
     {
+        public db _database = new db();
         private string filename;
         private StreamReader _tempStreamReader = null;
         private string _tempXmlString = null;
-        public XmlReader()
+        public XmlReader(string filename = "test.xml")
         {
-            this.filename = "test.xml";
+            this.filename = filename;
         }
 
         public void Open()

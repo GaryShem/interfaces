@@ -1,43 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace InterfacesHW
 {
-    class SqlReader : BaseClass, ISourceData
+    class SqlReader : ISourceData
     {
+        private OleDbConnection _dbConnection;
+        private OleDbDataReader _studentReader;
+        private OleDbDataReader _groupReader;
         private string filename;
+        public db _database = new db();
         public SqlReader()
         {
-            this.filename = "text.accdb";
+            this.filename = "test.accdb";
         }
 
         public void Open()
         {
-            throw new NotImplementedException();
+            string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + String.Format("{0}\\{1};", Directory.GetCurrentDirectory(), filename);
+            _dbConnection = new OleDbConnection(connectionString);
+            _dbConnection.Open();
         }
 
         public void Load()
         {
-            throw new NotImplementedException();
-            throw new Exception("file is not opened for reading");
-        }
+            OleDbCommand readStudent = new OleDbCommand("SELECT * FROM Students", _dbConnection);
+            OleDbCommand readGroup = new OleDbCommand("SELECT * FROM Groups", _dbConnection);
 
-        public void Save()
-        {
-            throw new NotImplementedException();
+            _studentReader = readStudent.ExecuteReader();
+            _groupReader = readGroup.ExecuteReader();
         }
 
         public void Close()
         {
-            throw new NotImplementedException();
+            _dbConnection.Close();
         }
 
         public void Parse()
         {
-            throw new NotImplementedException();
+            while (_studentReader.Read())
+            {
+                Student s = new Student()
+                {
+                    Id = _studentReader.GetInt32(0),
+                    GroupId = _studentReader.GetInt32(1),
+                    Name = _studentReader.GetString(2),
+                    EnrollYear = _studentReader.GetInt32(3)
+                };
+                _database.Students.Add(s);
+            }
+            while (_groupReader.Read())
+            {
+                Group g = new Group()
+                {
+                    Id = _groupReader.GetInt32(0),
+                    Description = _groupReader.GetString(1)
+                };
+                _database.Groups.Add(g);
+            }
         }
 
         public void GetData()

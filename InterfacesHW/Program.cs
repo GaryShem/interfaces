@@ -10,11 +10,11 @@ namespace InterfacesHW
     {
         static void Main(string[] args)
         {
-            ISourceData data = new TxtReader();
+            ISourceData data = new SqlReader();
             data.Open();
             data.Load();
-            data.Close();
             data.Parse();
+            data.Close();
             data.GetData();
         }
     }
