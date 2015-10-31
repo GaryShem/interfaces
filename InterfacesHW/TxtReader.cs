@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace InterfacesHW
@@ -48,12 +49,8 @@ namespace InterfacesHW
             if (String.IsNullOrEmpty(_tempString))
                 throw new Exception("file has not been loaded");
             StringReader sr = new StringReader(_tempString);
-            //groups
-            //groups, get count //([A-Z])\w+
             string line = sr.ReadLine();
-            Regex r = new Regex(@"\[(\d+)\]");
-            Match m = r.Match(line);
-            int count = int.Parse(m.Groups[1].ToString());
+            int count = int.Parse(line.Split('[', ']')[1]);
             for (int i = 0; i < count; i++)
             {
                 line = sr.ReadLine();
@@ -63,8 +60,7 @@ namespace InterfacesHW
                 _database.Groups.Add(new Group(){Id = groupId, Description = groupDescr});
             }
             line = sr.ReadLine();
-            m = r.Match(line);
-            count = int.Parse(m.Groups[1].ToString());
+            count = int.Parse(line.Split('[', ']')[1]);
             for (int i = 0; i < count; i++)
             {
                 line = sr.ReadLine();
